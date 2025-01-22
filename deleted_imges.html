@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deleted Photos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/x-icon" href="logo_privetapp.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <!-- Header -->
+    <header class="bg-purple-900 text-white shadow-md w-full">
+        <div class="container mx-auto flex items-center justify-between px-2 py-2">
+        <a href="upload_image.html"><img src="./logo_privetapp.png" alt="logo" class="w-28 h-28"><span class="text-red-600 text-2xl font-extrabold italic font-serif" > </span><samp class="font-extrabold italic font-serif"> </a>
+          <nav class="hidden md:flex space-x-6">
+            <a href="upload_image.html" class="hover:underline text-2xl">Store <i class="fa-solid fa-cloud-arrow-up"></i></a>
+            <a href="show_images.html" class="hover:underline text-2xl">Gallery <i class="fa-solid fa-image "></i></a>
+            <a href="locker.html#" class="hover:underline text-2xl">Locker <i class="fa-solid fa-lock text-yellow-600"></i></a>
+            <a href="deleted_imges.html" class="underline text-3xl">Recently <i class="fa-solid fa-trash-can text-red-600"></i></a>
+            <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" class="text-white focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-blue-800" type="button"> <i class="fa-solid fa-gear text-2xl  "></i> 
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+ </nav>
+                
+            <div id="dropdownHover" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
+                <li>
+                  <a href="dashboard.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                </li>
+                <li>
+                  <a href="login.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Login</a>
+                </li>
+                <li>
+                  <a href="register.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Register</a>
+                </li>
+              </ul>
+            </div>
+          <!-- Mobile Menu Icon -->
+          <button id="menu-toggle" class="block md:hidden focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+    
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-purple-600 text-white">
+          <a href="upload_image.html" class="block px-4 py-2 hover:bg-gray-900 text-2xl">Store <i class="fa-solid fa-cloud-arrow-up"></i></a>
+          <a href="show_images.html" class="block px-4 py-2 hover:bg-gray-900 text-2xl">Gallery <i class="fa-solid fa-image "></i></a>
+          <a href="#locer.html" class="block px-4 py-2 hover:bg-gray-900 text-2xl">Locker <i class="fa-solid fa-lock text-yellow-600"></i></a><hr>
+          <a href="deleted_imges.html" class="block px-4 py-2 bg-gray-900 text-3xl">Recently <i class="fa-solid fa-trash-can text-red-600"></i></a>
+          <a href="dashboard.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-2xl">Dashboard</a>
+          <a href="login.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-2xl">Login</a>
+          <a href="register.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-2xl">Register</a>
+        </div>
+      </header>
+
+    <div class="container mx-auto py-8">
+        <!-- Header -->
+        <h1 class="text-4xl font-bold text-center text-gray-800 mb-8 animate__animated animate__fadeIn">
+            <span class="text-red-500">Deleted</span> Photos
+        </h1>
+
+        <!-- Photo Grid -->
+        <div id="photosGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            
+        </div>
+
+        <!-- No Photos Message -->
+        <p id="noPhotosMessage" class="text-center text-gray-600 mt-6 hidden">No deleted photos found.</p>
+    </div>
+
+    <script>
+      const photosGrid = document.getElementById('photosGrid');
+      const noPhotosMessage = document.getElementById('noPhotosMessage');
+  
+      // Fetch Deleted Photos
+      async function fetchDeletedPhotos() {
+    try {
+        const email = localStorage.getItem('email'); // Get email from localStorage
+        if (!email) {
+            alert('Email not found in localStorage.');
+            window.location.href = "login.html"
+            return;
+        }
+
+        const response = await fetch(`http://localhost:3000/api/images_deleted_all?email=${encodeURIComponent(email)}`);
+        
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Server responded with status ${response.status}: ${errorText}`);
+        }
+
+        const photos = await response.json();
+
+        if (!Array.isArray(photos) || photos.length === 0) {
+            noPhotosMessage.classList.remove('hidden');
+            photosGrid.innerHTML = '';
+            return;
+        }
+
+        noPhotosMessage.classList.add('hidden');
+        photosGrid.innerHTML = '';
+
+        photos.forEach(photo => {
+            const photoCard = document.createElement('div');
+            photoCard.className =
+                'relative overflow-hidden border rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition duration-300 bg-white animate__animated animate__fadeInUp';
+
+            photoCard.innerHTML = `
+                <img src="${photo.imageUrl}" alt="${photo.imageName}" class="w-full h-48 object-cover">
+                <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <p class="text-white font-semibold text-center">${photo.imageName}</p>
+                </div>
+                <div class="absolute bottom-4 left-4 right-4 flex justify-between opacity-0 hover:opacity-100 transition-opacity duration-300">
+                    <button class="text-yellow-500 p-2 text-3xl" onclick="recoverPhoto(${photo.id})"><i class="fa-solid fa-rotate"></i></button>
+                    <button class="text-red-500 p-2 text-3xl" onclick="deletePhoto(${photo.id})"><i class="fa-solid fa-trash-arrow-up"></i></button>
+                </div>
+                <p class="text-sm text-center text-gray-500 mt-2">Deleted At: ${new Date(photo.deletedAt).toLocaleString()}</p>
+            `;
+
+            photosGrid.appendChild(photoCard);
+        });
+    } catch (err) {
+        console.error('Error fetching deleted photos:', err);
+        noPhotosMessage.classList.remove('hidden');
+        noPhotosMessage.textContent = 'Failed to load deleted photos.';
+    }
+}
+
+      // Recover Photo function
+  async function recoverPhoto(id) {
+      const email = localStorage.getItem('email');  // Retrieve email from localStorage
+    if(!email){
+      
+      alert('No email found in localStorage. Please log in first.');
+            window.location.href ="login.html"
+            return;
+        }
+      try {
+          const response = await fetch(`http://localhost:3000/api/recoverphoto/${id}?email=${encodeURIComponent(email)}`, {
+              method: 'DELETE', 
+          });
+
+          const result = await response.json();
+          if (response.ok) {
+              alert(result.message);
+              fetchDeletedPhotos(); // Refresh the list of deleted photos
+          } else {
+              alert(result.message || 'Failed to recover photo.');
+          }
+      } catch (err) {
+          console.error('Error recovering photo:', err);
+          alert('Failed to recover photo.');
+      }
+  }
+      // Delete Photo function
+ async function deletePhoto(id) {
+    const email = localStorage.getItem('email');  // Retrieve email from localStorage
+
+    try {
+    const response = await fetch(`http://localhost:3000/delete/api/deleted_image/${id}?email=${encodeURIComponent(email)}`, {
+        method: 'DELETE',
+    });
+
+    const result = await response.json();
+    if (response.ok) {
+        alert(result.message || 'Photo deleted successfully.');
+        fetchDeletedPhotos(); // Refresh the list of deleted photos
+    } else {
+        alert(result.message || 'Failed to delete photo.');
+    }
+    } catch (err) {
+    console.error('Error deleting photo:', err);
+    alert('Failed to delete photo.');
+    }
+    }
+      // Call the function to load photos on page load
+      fetchDeletedPhotos();
+  </script>
+  
+
+<footer class="w-full bg-black text-white py-6">
+    <div class="container mx-auto flex flex-col md:flex-row items-center justify-between px-4 space-y-6 md:space-y-0">
+      <!-- Logo -->
+      <div class="flex justify-center">
+        <img src="logo_privetapp.png" alt="logo" class="w-20 h-20 md:w-28 md:h-28">
+      </div>
+  
+      <!-- Navigation -->
+      <nav class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6 items-center text-center">
+        <a href="upload_image.html" class="text-lg md:text-2xl hover:underline">
+          Store <i class="fa-solid fa-cloud-arrow-up"></i>
+        </a>
+        <a href="show_images.html" class="text-lg md:text-2xl hover:underline">
+          Gallery <i class="fa-solid fa-image"></i>
+        </a>
+        <a href="locker.html#" class="text-lg md:text-2xl hover:underline">
+          Locker <i class="fa-solid fa-lock text-yellow-600"></i>
+        </a>
+        <a href="deleted_imges.html" class="text-lg md:text-2xl hover:underline">
+          Recently <i class="fa-solid fa-trash-can text-red-600"></i>
+        </a>
+      </nav>
+    </div>
+  
+    <!-- Copyright Section -->
+    <div class="border-t border-gray-700 mt-6 pt-4 text-center text-sm md:text-base">
+      <p>
+        &copy; <span id="year"></span> Your Company Name. All rights reserved.
+      </p>
+    </div>
+</footer>
+  
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+
+   <script>
+        // Toggle Mobile Menu
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const dropdownButton = document.getElementById('dropdownHoverButton');
+        const dropdownMenu = document.getElementById('dropdownHover');
+
+
+        menuToggle.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden');
+        });
+
+
+   
+      
+        // Show dropdown on hover
+        dropdownButton.addEventListener('mouseenter', () => {
+          dropdownMenu.classList.remove('hidden');
+        });
+      
+        // Hide dropdown when not hovering over the menu or button
+        dropdownButton.addEventListener('mouseleave', () => {
+          setTimeout(() => {
+            if (!dropdownMenu.matches(':hover')) {
+              dropdownMenu.classList.add('hidden');
+            }
+          }, 200); // Adjust delay to prevent flickering
+        });
+      
+        dropdownMenu.addEventListener('mouseleave', () => {
+          dropdownMenu.classList.add('hidden');
+        });
+      
+        dropdownMenu.addEventListener('mouseenter', () => {
+          dropdownMenu.classList.remove('hidden');
+        });
+
+
+      </script>
+      
+
+</body>
+</html>

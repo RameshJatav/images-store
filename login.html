@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Store</title>
+    <link rel="icon" type="image/x-icon" href="logo_privetapp.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.10s ease-in-out;
+        }
+        .fade1-in {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+    </style>
+</head>
+
+<body class="fade1-in bg-gray-300 from-gray-100 to-gray-300 min-h-screen items-center font-sans">
+    <!-- Header -->
+    <header class="bg-purple-900 text-white shadow-md w-full">
+        <div class="container mx-auto flex items-center justify-between px-2 py-2">
+        <a href="upload_image.html"><img src="./logo_privetapp.png" alt="logo" class="w-28 h-28"><span class="text-red-600 text-2xl font-extrabold italic font-serif" > </span><samp class="font-extrabold italic font-serif"> </a>
+          <nav class="hidden md:flex space-x-6">
+            <a href="upload_image.html" class=" text-2xl underline text-3xl ">Store <i class="fa-solid fa-cloud-arrow-up"></i></a>
+            <a href="show_images.html" class="hover:underline text-2xl">Gallery <i class="fa-solid fa-image "></i></a>
+            <a href="locker.html#" class="hover:underline text-2xl">Locker <i class="fa-solid fa-lock text-yellow-600"></i></a>
+            <a href="deleted_imges.html" class="hover:underline text-2xl">Recently <i class="fa-solid fa-trash-can text-red-600"></i></a>
+            <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" class="text-white focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-blue-800" type="button"> <i class="fa-solid fa-gear text-2xl  "></i> 
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+   </nav>
+      
+  <div id="dropdownHover" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
+      <li>
+        <a href="dashboard.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+      </li>
+      <li>
+        <a href="login.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Login</a>
+      </li>
+      <li>
+        <a href="register.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Register</a>
+      </li>
+    </ul>
+  </div>
+          <!-- Mobile Menu Icon -->
+          <button id="menu-toggle" class="block md:hidden focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+    
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-purple-600 text-white">
+          <a href="upload_image.html" class="block px-4 py-2 hover:bg-gray-900 text-3xl bg-gray-900">Store <i class="fa-solid fa-cloud-arrow-up"></i></a><hr>
+          <a href="show_images.html" class="block px-4 py-2 hover:bg-gray-900 text-2xl">Gallery <i class="fa-solid fa-image "></i></a>
+          <a href="#locer.html" class="block px-4 py-2 hover:bg-gray-900 text-2xl">Locker <i class="fa-solid fa-lock text-yellow-600"></i></a>
+          <a href="deleted_imges.html" class="block px-4 py-2 hover:bg-gray-900 text-2xl">Recently <i class="fa-solid fa-trash-can text-red-600"></i></a>
+          <a href="dashboard.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-2xl">Dashboard</a>
+          <a href="login.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-2xl">Login</a>
+          <a href="register.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-2xl">Register</a>
+        </div>
+      </header>
+    
+ 
+    <div class=" fade-in max-w-md mx-auto mt-10 bg-gray-800 p-6 rounded-lg shadow-lg mb-20 " >
+        <h2 class="text-2xl font-bold mb-4 text-white ">Login</h2>
+        <form onsubmit="loginUser(event)">
+            <div class="mb-4">
+                <label for="loginEmail" class="block text-sm font-medium text-white">Email</label>
+                <input type="email" id="loginEmail" class="w-full p-2 border border-gray-300 rounded" required placeholder="testrj0@gmail.com">
+            </div>
+            <div class="mb-4">
+                <label for="loginPassword" class="block text-sm font-medium text-white" >Password</label>
+                <input type="password" id="loginPassword" class="w-full p-2 border border-gray-300 rounded" required placeholder="******">
+            </div>
+            <button type="submit" class="text-white w-full bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Login</button>
+            <a href="register.html" class="text-white font-bold underline text-lg mr-0 hover:text-blue-500 ">Register</a>
+
+        </form>
+    </div>
+
+    <footer class="w-full bg-black text-white py-6">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between px-4 space-y-6 md:space-y-0">
+           <div class="flex justify-center">
+            <img src="logo_privetapp.png" alt="logo" class="w-20 h-20 md:w-28 md:h-28">
+          </div>
+      
+           <nav class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6 items-center text-center">
+            <a href="upload_image.html" class="text-lg md:text-3xl hover:underline">
+              Store <i class="fa-solid fa-cloud-arrow-up"></i>
+            </a>
+            <a href="show_images.html" class="text-lg md:text-2xl hover:underline">
+              Gallery <i class="fa-solid fa-image"></i>
+            </a>
+            <a href="locker.html#" class="text-lg md:text-2xl hover:underline">
+              Locker <i class="fa-solid fa-lock text-yellow-600"></i>
+            </a>
+            <a href="deleted_imges.html" class="text-lg md:text-2xl hover:underline">
+              Recently <i class="fa-solid fa-trash-can text-red-600"></i>
+            </a>
+          </nav>
+        </div>
+      </footer>
+
+
+<script>
+        // Save email in local storage
+        function saveEmailToLocalStorage(email) {
+            localStorage.setItem('email', email);
+        }
+    
+        // Handle login form submission
+        async function loginUser(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+    
+            const response = await fetch('http://localhost:3000/users/user_login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email_id: email, password })
+            });
+    
+            if (response.ok) {
+                const data = await response.json();
+                saveEmailToLocalStorage(email); // This function is now defined
+                alert('Login successful!.');
+                window.location.href = 'dashboard.html';
+            } else {
+                alert('Login failed. Please check your credentials.');
+            }
+        }
+    </script>
+    
+    <script>
+      // Toggle Mobile Menu
+      const menuToggle = document.getElementById('menu-toggle');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const dropdownButton = document.getElementById('dropdownHoverButton');
+      const dropdownMenu = document.getElementById('dropdownHover');
+
+      menuToggle.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+      // Show dropdown on hover
+      dropdownButton.addEventListener('mouseenter', () => {
+        dropdownMenu.classList.remove('hidden');
+      });
+    
+      // Hide dropdown when not hovering over the menu or button
+      dropdownButton.addEventListener('mouseleave', () => {
+        setTimeout(() => {
+          if (!dropdownMenu.matches(':hover')) {
+            dropdownMenu.classList.add('hidden');
+          }
+        }, 200); // Adjust delay to prevent flickering
+      });
+    
+      dropdownMenu.addEventListener('mouseleave', () => {
+        dropdownMenu.classList.add('hidden');
+      });
+    
+      dropdownMenu.addEventListener('mouseenter', () => {
+        dropdownMenu.classList.remove('hidden');
+      });
+
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Store</title>
+    <link rel="icon" type="image/x-icon" href="logo_privetapp.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.10s ease-in-out;
+        }
+        .fade1-in {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  height: 100vh;
+  background: radial-gradient(circle, #1b2735, #090a0f);
+}
+
+canvas {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* Ensure  the width */
+  height: 100%; /* Ensure canvas fully covers the height */
+}
+
+    </style>
+</head>
+
+<body class="fade1-in bg-gray-300 from-gray-100 to-gray-300 min-h-screen items-center font-sans relative">
+    <!-- Animation Canvas -->
+    <canvas id="cosmosCanvas" class="absolute top-0 left-0 w-full h-full z-0"></canvas>
+
+    <!-- Header -->
+    <header class="bg-purple-900 text-white shadow-md w-full z-10 relative">
+        <div class="container mx-auto flex items-center justify-between px-2 py-2">
+            <a href="upload_image.html">
+                <img src="./logo_privetapp.png" alt="logo" class="w-28 h-28">
+            </a>
+            <nav class="hidden md:flex space-x-6">
+                <a href="upload_image.html" class=" text-2xl text-2xl">Store <i class="fa-solid fa-cloud-arrow-up"></i></a>
+                <a href="show_images.html" class="hover:underline text-2xl">Gallery <i class="fa-solid fa-image"></i></a>
+                <a href="locker.html" class="hover:underline underline text-3xl">Locker <i class="fa-solid fa-lock text-yellow-600"></i></a>
+                <a href="deleted_imges.html" class="hover:underline text-2xl">Recently <i class="fa-solid fa-trash-can text-red-600"></i></a>
+                <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" class="text-white focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-blue-800" type="button"> <i class="fa-solid fa-gear text-2xl  "></i> 
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+       </nav>
+  
+            <div id="dropdownHover" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
+                  <li>
+                    <a href="dashboard.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                  </li>
+                  <li>
+                    <a href="login.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Login</a>
+                  </li>
+                  <li>
+                    <a href="register.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Register</a>
+                  </li>
+                </ul>
+              </div>
+
+            <!-- Mobile Menu Icon -->
+            <button id="menu-toggle" class="block md:hidden focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-purple-600 text-white">
+            <a href="upload_image.html" class="block px-4 py-2 hover:bg-gray-900 text-3xl ">Store <i class="fa-solid fa-cloud-arrow-up"></i></a><hr>
+            <a href="show_images.html" class="block px-4 py-2 hover:bg-gray-900 text-2xl">Gallery <i class="fa-solid fa-image "></i></a>
+            <a href="locker.html" class="block px-4 py-2 hover:bg-gray-900 text-2xl bg-gray-900">Locker <i class="fa-solid fa-lock text-yellow-600"></i></a>
+            <a href="deleted_imges.html" class="block px-4 py-2 hover:bg-gray-900 text-2xl">Recently <i class="fa-solid fa-trash-can text-red-600"></i></a>
+            <a href="dashboard.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-2xl">Dashboard</a>
+            <a href="login.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-2xl">Login</a>
+            <a href="register.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-2xl">Register</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <section class="bg-transparent rounded-lg shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-4 text-blue-600">Current Projects</h2>
+            <p class="text-yellow-200 leading-relaxed mb-4">
+                We are actively working on innovative projects aimed at enhancing user experience and delivering high-quality solutions for our clients. From web development to AI-powered tools, our focus is always on excellence and efficiency.
+            </p>
+            <p class="text-yellow-200 leading-relaxed">
+                Stay updated with our progress and new ventures by subscribing to our newsletter.
+            </p>
+        </section>
+
+        <section class="bg-transparent rounded-lg shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-4 text-blue-600">Our Mission</h2>
+            <p class="text-yellow-200 leading-relaxed">
+                Our mission is to empower businesses and individuals through technology. We aim to create solutions that are not only effective but also user-friendly and accessible to everyone.
+            </p>
+        </section>
+
+        <section class="bg-transparent rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-semibold mb-4 text-blue-600">Contact Us</h2>
+            <p class="text-yellow-200 leading-relaxed mb-4">
+                Have questions or want to collaborate? Reach out to us via the following methods:
+            </p>
+            <ul class="list-disc list-inside text-yellow-200">
+                <li>Email: <a href="mailto:testrj8@gmail.com" class="text-blue-500 hover:underline">testrj8@gmail.com</a></li>
+                <li>Phone: <a href="tel:+91 9024414017" class="text-blue-500 hover:underline">+91 902 4414 017</a></li>
+                <li>Address: Kairwari Malakhera Alwar, Rajasthan (301406) </li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="w-full bg-black text-white py-6">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between px-4 space-y-6 md:space-y-0">
+           <div class="flex justify-center">
+            <img src="logo_privetapp.png" alt="logo" class="w-20 h-20 md:w-28 md:h-28">
+          </div>
+      
+           <nav class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6 items-center text-center">
+            <a href="upload_image.html" class="text-lg md:text-3xl hover:underline">
+              Store <i class="fa-solid fa-cloud-arrow-up"></i>
+            </a>
+            <a href="show_images.html" class="text-lg md:text-2xl hover:underline">
+              Gallery <i class="fa-solid fa-image"></i>
+            </a>
+            <a href="locker.html#" class="text-lg md:text-2xl hover:underline">
+              Locker <i class="fa-solid fa-lock text-yellow-600"></i>
+            </a>
+            <a href="deleted_imges.html" class="text-lg md:text-2xl hover:underline">
+              Recently <i class="fa-solid fa-trash-can text-red-600"></i>
+            </a>
+          </nav>
+        </div>
+      </footer>
+    
+   
+          <script>
+            const canvas = document.getElementById('cosmosCanvas');
+            const ctx = canvas.getContext('2d');
+    
+            // Resize canvas to fill the window
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+    
+            const particles = [];
+            const numParticles = 100;
+    
+            class Particle {
+                constructor(x, y, radius, speed) {
+                    this.x = x;
+                    this.y = y;
+                    this.radius = radius;
+                    this.speed = speed;
+                    this.angle = Math.random() * Math.PI * 2;
+                }
+    
+                update() {
+                    this.x += Math.cos(this.angle) * this.speed;
+                    this.y += Math.sin(this.angle) * this.speed;
+    
+                    if (this.x < 0 || this.x > canvas.width) this.angle = Math.PI - this.angle;
+                    if (this.y < 0 || this.y > canvas.height) this.angle = -this.angle;
+                }
+    
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                    ctx.fill();
+                }
+            }
+    
+            for (let i = 0; i < numParticles; i++) {
+                particles.push(
+                    new Particle(
+                        Math.random() * canvas.width,
+                        Math.random() * canvas.height,
+                        Math.random() * 4 + 1,
+                        Math.random() * 0.5 + 0.2
+                    )
+                );
+            }
+    
+            function connectParticles() {
+                for (let a = 0; a < particles.length; a++) {
+                    for (let b = a + 1; b < particles.length; b++) {
+                        const dist = Math.hypot(
+                            particles[a].x - particles[b].x,
+                            particles[a].y - particles[b].y
+                        );
+    
+                        if (dist < 120) {
+                            ctx.strokeStyle = `rgba(255, 255, 255, ${1 - dist / 120})`;
+                            ctx.lineWidth = 0.7;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[a].x, particles[a].y);
+                            ctx.lineTo(particles[b].x, particles[b].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+    
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach((particle) => {
+                    particle.update();
+                    particle.draw();
+                });
+                connectParticles();
+                requestAnimationFrame(animate);
+            }
+    
+            animate();
+        </script>
+          <script>
+            // Toggle Mobile Menu
+            const menuToggle = document.getElementById('menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const dropdownButton = document.getElementById('dropdownHoverButton');
+            const dropdownMenu = document.getElementById('dropdownHover');
+    
+    
+            menuToggle.addEventListener('click', () => {
+              mobileMenu.classList.toggle('hidden');
+            });
+    
+    
+       
+          
+            // Show dropdown on hover
+            dropdownButton.addEventListener('mouseenter', () => {
+              dropdownMenu.classList.remove('hidden');
+            });
+          
+            // Hide dropdown when not hovering over the menu or button
+            dropdownButton.addEventListener('mouseleave', () => {
+              setTimeout(() => {
+                if (!dropdownMenu.matches(':hover')) {
+                  dropdownMenu.classList.add('hidden');
+                }
+              }, 200); // Adjust delay to prevent flickering
+            });
+          
+            dropdownMenu.addEventListener('mouseleave', () => {
+              dropdownMenu.classList.add('hidden');
+            });
+          
+            dropdownMenu.addEventListener('mouseenter', () => {
+              dropdownMenu.classList.remove('hidden');
+            });
+    
+    
+          </script>
+</body>
+</html>
