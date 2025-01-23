@@ -86,7 +86,7 @@
             return;
         }
 
-        const response = await fetch(`http://localhost:3000/api/images_deleted_all?email=${encodeURIComponent(email)}`);
+        const response = await fetch(`https://rameshjatav.github.io/backend_images/api/images_deleted_all?email=${encodeURIComponent(email)}`);
         
         if (!response.ok) {
             const errorText = await response.text();
@@ -140,7 +140,7 @@
             return;
         }
       try {
-          const response = await fetch(`http://localhost:3000/api/recoverphoto/${id}?email=${encodeURIComponent(email)}`, {
+          const response = await fetch(`https://rameshjatav.github.io/backend_images/api/recoverphoto/${id}?email=${encodeURIComponent(email)}`, {
               method: 'DELETE', 
           });
 
@@ -161,7 +161,7 @@
     const email = localStorage.getItem('email');  // Retrieve email from localStorage
 
     try {
-    const response = await fetch(`http://localhost:3000/delete/api/deleted_image/${id}?email=${encodeURIComponent(email)}`, {
+    const response = await fetch(`https://rameshjatav.github.io/backend_images/delete/api/deleted_image/${id}?email=${encodeURIComponent(email)}`, {
         method: 'DELETE',
     });
 

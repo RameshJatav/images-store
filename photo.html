@@ -87,7 +87,7 @@
           }
   
           try {
-              const response = await fetch(`http://localhost:3000/api/show_one/${id}`, {
+              const response = await fetch(`https://rameshjatav.github.io/backend_images/api/show_one/${id}`, {
                   headers: {
                       'Authorization': `Bearer ${email}`,
                   },
@@ -137,7 +137,7 @@
           if (!confirmation) return;
   
           try {
-              const response = await fetch(`http://localhost:3000/api/deletephoto/${id}`, {
+              const response = await fetch(`https://rameshjatav.github.io/backend_images/api/deletephoto/${id}`, {
                   method: 'DELETE',
                   headers: {
                       'Authorization': `Bearer ${email}`,
