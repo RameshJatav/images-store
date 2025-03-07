@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete All Images</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-900">
+    <div class=" p-6 rounded-lg shadow-2xl">
+        <h1 class="text-2xl font-bold mb-4 text-gray-200">Image Store</h1>
+        <p class="mb-4 text-red-400">Are you sure you want to delete all images?</p>
+        <button id="deleteButton" class="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700 border">
+            Delete All Images
+        </button>
+        <p id="message" class="mt-4 text-center text-red-400 "></p>
+    </div>
+
+    <script>
+        document.getElementById('deleteButton').onclick = function() {
+            fetch('https://backend-imagestore-1.onrender.com/deleteall', {
+                method: 'GET',
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('message').innerText = 'All images deleted successfully!';
+                console.log(data);
+            })
+            .catch(error => {
+                document.getElementById('message').innerText = 'Error deleting images: ' + error.message;
+                console.error('There was a problem with the fetch operation:', error);
+            });
+        };
+    </script>
+</body>
+</html>
