@@ -116,8 +116,12 @@ canvas {
         <button class="text-white w-full bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
             Log Out
         </button>
+        
     </section>
-
+    <!--  -->
+    <a href="./deleteall.html"><button class="text-white w-full bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+        DELETE ALL
+    </button></a>
     <script>
         const canvas = document.getElementById('cosmosCanvas');
         const ctx = canvas.getContext('2d');
@@ -274,6 +278,20 @@ if(!email){
         dropdownMenu.addEventListener('mouseenter', () => {
           dropdownMenu.classList.remove('hidden');
         });
+
+        function confirmLogout() {
+    // Create a confirmation popup
+    if (confirm("Are you sure you want to log out?")) {
+        // If user confirms, remove email from localStorage
+        localStorage.removeItem("email");
+        alert("You have been logged out.");
+        // Redirect or reload the page (optional)
+        window.location.href = "login.html"; // Change URL as needed
+    }
+}
+
+// Attach event listener to the button
+    document.querySelector("button").addEventListener("click", confirmLogout);
 
 
       </script>
