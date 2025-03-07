@@ -117,7 +117,7 @@
     }
 
     try {
-      const response = await fetch('https://rameshjatav.github.io/backend_images/api/images', {
+      const response = await fetch('https://backend-imagestore-1.onrender.com/api/images', {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${email}`, // Include email in Authorization header
@@ -165,7 +165,7 @@
             }
 
             try {
-                const response = await fetch('https://rameshjatav.github.io/backend_images/delete/All_photos', {
+                const response = await fetch('https://backend-imagestore-1.onrender.com/delete/All_photos', {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
