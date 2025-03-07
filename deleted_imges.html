@@ -261,7 +261,6 @@
 
 
 <script>
-  // Fetch Deleted Photos
 async function fetchDeletedPhotos() {
     try {
         const email = localStorage.getItem('email'); // Get email from localStorage
@@ -271,7 +270,13 @@ async function fetchDeletedPhotos() {
             return;
         }
 
-        const response = await fetch(`https://backend-imagestore-1.onrender.com/api/images_deleted_all?email=${encodeURIComponent(email)}`);
+        // Include the email in the Authorization header
+        const response = await fetch(`https://backend-imagestore-1.onrender.com/api/images_deleted_all`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${email}` // Pass the email as part of the header
+            }
+        });
 
         if (!response.ok) {
             const errorText = await response.text();
