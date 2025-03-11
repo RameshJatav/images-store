@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Users</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+
+    <div class="max-w-3xl mx-auto bg-white p-6 shadow-lg rounded-lg">
+        <h2 class="text-2xl font-bold mb-4 text-center">All Users</h2>
+
+        <!-- Users Table -->
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse border border-gray-300">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="border p-2">ID</th>
+                        <th class="border p-2">Name</th>
+                        <th class="border p-2">Email</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTable">
+                    <tr>
+                        <td colspan="3" class="text-center p-3">Loading...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Delete Button -->
+        <button id="deleteAllBtn" class="mt-4 bg-red-500 text-white px-4 py-2 rounded w-full hover:bg-red-600">
+            Delete All Users
+        </button>
+    </div>
+
+    <script>
+        const usersTable = document.getElementById("usersTable");
+        const deleteAllBtn = document.getElementById("deleteAllBtn");
+
+        // 🚀 Get all users
+        async function fetchUsers() {
+            try {
+                const response = await fetch("https://backend-imagestore-1.onrender.com/users/users/getall");
+                const data = await response.json();
+                const users = data[0]; // Response में Nested Array हो सकता है
+
+                usersTable.innerHTML = ""; // Table साफ़ करें
+                
+                if (users.length === 0) {
+                    usersTable.innerHTML = "<tr><td colspan='3' class='text-center p-3'>No users found.</td></tr>";
+                    return;
+                }
+
+                users.forEach(user => {
+                    usersTable.innerHTML += `
+                        <tr>
+                            <td class="border p-2 text-center">${user.id}</td>
+                            <td class="border p-2 text-center">${user.name}</td>
+                            <td class="border p-2 text-center">${user.email}</td>
+                        </tr>
+                    `;
+                });
+            } catch (error) {
+                console.error("Error fetching users:", error);
+                usersTable.innerHTML = "<tr><td colspan='3' class='text-center p-3 text-red-500'>Error loading users.</td></tr>";
+            }
+        }
+
+        deleteAllBtn.addEventListener("click", async () => {
+            if (confirm("Are you sure you want to delete all users?")) {
+                try {
+                    await fetch("https://backend-imagestore-1.onrender.com/users/alldeleteAllusers/notuse", {
+                        method: "POST"
+                    });
+                    fetchUsers(); // डेटा अपडेट करें
+                } catch (error) {
+                    console.error("Error deleting users:", error);
+                }
+            }
+        });
+
+        
+        fetchUsers();
+    </script>
+
+</body>
+</html>
