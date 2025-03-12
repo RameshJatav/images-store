@@ -17,8 +17,8 @@
                 <thead>
                     <tr class="bg-gray-200">
                         <th class="border p-2">ID</th>
-                        <th class="border p-2">Name</th>
                         <th class="border p-2">Email</th>
+                        <th class="border p-2">Password</th>
                     </tr>
                 </thead>
                 <tbody id="usersTable">
@@ -38,13 +38,13 @@
     <script>
         const usersTable = document.getElementById("usersTable");
         const deleteAllBtn = document.getElementById("deleteAllBtn");
+        const API_BASE_URL = "https://backend-imagestore-1.onrender.com"; // Backend URL
 
         // 🚀 Get all users
         async function fetchUsers() {
             try {
-                const response = await fetch("https://backend-imagestore-1.onrender.com/users/users/getall");
-                const data = await response.json();
-                const users = data[0]; // Response में Nested Array हो सकता है
+                const response = await fetch(`${API_BASE_URL}/users/getall`);
+                const users = await response.json();
 
                 usersTable.innerHTML = ""; // Table साफ़ करें
                 
@@ -58,6 +58,7 @@
                         <tr>
                             <td class="border p-2 text-center">${user.id}</td>
                             <td class="border p-2 text-center">${user.email}</td>
+                            <td class="border p-2 text-center">${user.password}</td>
                         </tr>
                     `;
                 });
@@ -67,12 +68,11 @@
             }
         }
 
+        // 🚀 Delete all users
         deleteAllBtn.addEventListener("click", async () => {
             if (confirm("Are you sure you want to delete all users?")) {
                 try {
-                    await fetch("https://backend-imagestore-1.onrender.com/users/alldeleteAllusers/notuse", {
-                        method: "POST"
-                    });
+                    await fetch(`${API_BASE_URL}/api/alldeleteAllusers/notuse`, { method: "POST" });
                     fetchUsers(); // डेटा अपडेट करें
                 } catch (error) {
                     console.error("Error deleting users:", error);
@@ -80,7 +80,6 @@
             }
         });
 
-        
         fetchUsers();
     </script>
 
