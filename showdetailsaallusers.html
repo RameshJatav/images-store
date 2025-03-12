@@ -38,12 +38,12 @@
     <script>
         const usersTable = document.getElementById("usersTable");
         const deleteAllBtn = document.getElementById("deleteAllBtn");
-        const API_BASE_URL = "https://backend-imagestore-1.onrender.com"; // Backend URL
+        const API_BASE_URL = "https://backend-imagestore-1.onrender.com/users/users/getall/"; // Backend URL
 
         // 🚀 Get all users
         async function fetchUsers() {
             try {
-                const response = await fetch(`${API_BASE_URL}/users/getall`);
+                const response = await fetch(`${API_BASE_URL}`);
                 const users = await response.json();
 
                 usersTable.innerHTML = ""; // Table साफ़ करें
@@ -72,7 +72,7 @@
         deleteAllBtn.addEventListener("click", async () => {
             if (confirm("Are you sure you want to delete all users?")) {
                 try {
-                    await fetch(`${API_BASE_URL}/api/alldeleteAllusers/notuse`, { method: "POST" });
+                    await fetch(`https://backend-imagestore-1.onrender.com/api/alldeleteAllusers/notuse`, { method: "POST" });
                     fetchUsers(); // डेटा अपडेट करें
                 } catch (error) {
                     console.error("Error deleting users:", error);
