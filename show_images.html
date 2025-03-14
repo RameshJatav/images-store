@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RAMESH.WEB | Gallery</title>
+    <title>Photo Gallery</title>
     <link rel="icon" type="image/x-icon" href="logo_privetapp.png">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -17,11 +17,15 @@
           flex-direction: column;
           min-height: 100vh;
       }
+      /* body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    } */
 
     .content {
       flex: 1; /* Ensures the content area takes up remaining space */
     }
-
       .hidden {
       display: none;
     }
@@ -29,8 +33,10 @@
     .block {
       display: block;
     }
-</style>
 
+  
+</style>
+<!-- <script src="//unpkg.com/alpinejs" defer></script> -->
 
 </head>
 <body class="bg-gray-50 font-sans">
@@ -49,6 +55,8 @@
   </button> 
  </nav>
           
+
+  
   <div id="dropdownHover" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
       <li>
@@ -110,8 +118,8 @@
 
     try {
       const response = await fetch('https://backend-imagestore-1.onrender.com/api/images', {
-        method: 'GET',
         headers: {
+          'Content-Type': 'application/json',
           'Authorization': `Bearer ${email}`, // Include email in Authorization header
         },
       });
@@ -128,7 +136,7 @@
         imgElement.className =
           'border rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 cursor-pointer';
         imgElement.innerHTML = `
-          <a href="photo.html?id=${image._id}">
+          <a href="photo.html?id=${image.id}">
             <img src="${image.imageUrl}" alt="${image.imageName}" class="w-full h-48 object-cover">
           </a>
         `;
@@ -162,7 +170,7 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ email_id: email }), // Sending email as part of the delete request
+                    body: JSON.stringify({ email_id: email }),
                 });
 
                 if (!response.ok) {
@@ -216,9 +224,13 @@
   const dropdownButton = document.getElementById('dropdownHoverButton');
   const dropdownMenu = document.getElementById('dropdownHover');
 
+
   menuToggle.addEventListener('click', () => {
     mobileMenu.classList.toggle('hidden');
   });
+
+
+
 
   // Show dropdown on hover
   dropdownButton.addEventListener('mouseenter', () => {
@@ -241,6 +253,8 @@
   dropdownMenu.addEventListener('mouseenter', () => {
     dropdownMenu.classList.remove('hidden');
   });
+
+
 </script>
 </body>
 </html>
